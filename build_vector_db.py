@@ -14,21 +14,31 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(
 logger = logging.getLogger(__name__)
 
 def get_chroma_path():
-    """Returns correct path for Streamlit Cloud or local Windows"""
+    """Return correct ChromaDB path for Streamlit Cloud or Local Windows"""
+    # Streamlit Cloud uses /tmp (writable)
     if os.path.exists("/tmp") and os.access("/tmp", os.W_OK):
-        return "/tmp/chroma_db"
-    return "chroma_db"
+        path = "/tmp/chroma_db"
+        logger.info("Using Cloud path: /tmp/chroma_db")
+    else:
+        path = "chroma_db"
+        logger.info("Using Local path: chroma_db")
+    return path
 
 def build_vector_db():
-    logger.info("Building vector database for deployment...")
+    logger.info("🚀 Starting Vector Database Build...")
 
     chroma_dir = Path(get_chroma_path())
+    
+    # Clean previous database
     if chroma_dir.exists():
         import shutil
         shutil.rmtree(chroma_dir)
+        logger.info("🗑️ Old database cleaned.")
+    
     chroma_dir.mkdir(exist_ok=True)
 
     client = chromadb.PersistentClient(path=str(chroma_dir))
+    
     embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
         model_name=os.getenv("EMBEDDING_MODEL", "BAAI/bge-base-en-v1.5")
     )
@@ -52,7 +62,7 @@ def build_vector_db():
         ids.append(f"conf_{i}")
 
     collection.add(documents=documents, metadatas=metadatas, ids=ids)
-    logger.info(f"✅ Vector database built with {len(conferences)} conferences at {chroma_dir}")
+    logger.info(f"✅ Vector database built successfully with {len(conferences)} conferences!")
 
 if __name__ == "__main__":
     build_vector_db()

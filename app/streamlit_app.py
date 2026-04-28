@@ -5,13 +5,22 @@ from pathlib import Path
 from dotenv import load_dotenv
 import subprocess
 
-# ====================== Cloud & Torch Fixes ======================
+
+import streamlit as st
+from src.pipeline import run_pipeline
+
+# ====================== MUST BE FIRST ======================
+# Set page config as the VERY FIRST Streamlit command
+st.set_page_config(page_title="SemantiVenue AI", layout="wide")
+# ==========================================================
+
+# ====================== Fixes ======================
 warnings.filterwarnings("ignore")
 os.environ["STREAMLIT_SERVER_ENABLE_FILE_WATCHER"] = "false"
 
 import torch
 torch.classes.__path__ = []
-# ================================================================
+# ===================================================
 
 PROJECT_ROOT = Path(__file__).parent.parent.absolute()
 sys.path.append(str(PROJECT_ROOT))
@@ -30,37 +39,35 @@ import streamlit as st
 from src.pipeline import run_pipeline
 
 # ====================== CHROMADB INITIALIZATION ======================
-@st.cache_resource(show_spinner="Initializing Vector Database...")
+@st.cache_resource(show_spinner="Building Vector Database (First Time)...")
 def initialize_chroma_db():
-    """Build ChromaDB on first run (important for Streamlit Cloud)"""
+    """Build ChromaDB on startup"""
     try:
         logger.info("Initializing ChromaDB...")
         result = subprocess.run(
             ["python", "build_vector_db.py"], 
             capture_output=True, 
             text=True, 
-            timeout=90
+            timeout=120
         )
         if result.returncode == 0:
             logger.info("ChromaDB initialized successfully")
             return True
         else:
             logger.error(f"DB build failed: {result.stderr}")
+            st.error("Failed to build vector database. Please check logs.")
             return False
     except Exception as e:
         logger.error(f"Database initialization error: {e}")
+        st.error(f"Database error: {e}")
         return False
 
-# Run initialization when app starts
+# Run initialization
 db_ready = initialize_chroma_db()
 # ===================================================================
 
-st.set_page_config(page_title="SemantiVenue AI", layout="wide")
 st.title("SemantiVenue AI")
 st.markdown("**Agentic RAG Research Paper Conference Recommendation System**")
-
-if not db_ready:
-    st.warning("⚠️ Vector database initialization failed. Some features may not work.")
 
 tab1, tab2 = st.tabs(["Submit Paper", "Results"])
 
