@@ -3,11 +3,15 @@ import os
 import warnings
 from pathlib import Path
 from dotenv import load_dotenv
+import subprocess
 
+# ====================== Cloud & Torch Fixes ======================
 warnings.filterwarnings("ignore")
 os.environ["STREAMLIT_SERVER_ENABLE_FILE_WATCHER"] = "false"
+
 import torch
 torch.classes.__path__ = []
+# ================================================================
 
 PROJECT_ROOT = Path(__file__).parent.parent.absolute()
 sys.path.append(str(PROJECT_ROOT))
@@ -15,15 +19,48 @@ sys.path.append(str(PROJECT_ROOT))
 load_dotenv()
 
 import logging
-logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"), format="%(asctime)s | %(levelname)s | %(message)s")
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO"),
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    datefmt="%H:%M:%S"
+)
 logger = logging.getLogger(__name__)
 
 import streamlit as st
 from src.pipeline import run_pipeline
 
+# ====================== CHROMADB INITIALIZATION ======================
+@st.cache_resource(show_spinner="Initializing Vector Database...")
+def initialize_chroma_db():
+    """Build ChromaDB on first run (important for Streamlit Cloud)"""
+    try:
+        logger.info("Initializing ChromaDB...")
+        result = subprocess.run(
+            ["python", "build_vector_db.py"], 
+            capture_output=True, 
+            text=True, 
+            timeout=90
+        )
+        if result.returncode == 0:
+            logger.info("ChromaDB initialized successfully")
+            return True
+        else:
+            logger.error(f"DB build failed: {result.stderr}")
+            return False
+    except Exception as e:
+        logger.error(f"Database initialization error: {e}")
+        return False
+
+# Run initialization when app starts
+db_ready = initialize_chroma_db()
+# ===================================================================
+
 st.set_page_config(page_title="SemantiVenue AI", layout="wide")
 st.title("SemantiVenue AI")
 st.markdown("**Agentic RAG Research Paper Conference Recommendation System**")
+
+if not db_ready:
+    st.warning("⚠️ Vector database initialization failed. Some features may not work.")
 
 tab1, tab2 = st.tabs(["Submit Paper", "Results"])
 
@@ -74,6 +111,17 @@ with tab2:
         st.write("### 🏆 Ranked Conferences")
         for i, (conf, score) in enumerate(zip(r["ranked_conferences"], r["scores"])):
             with st.expander(f"Rank {i+1}: {conf} (Score: {score:.3f})", expanded=(i == 0)):
-                st.text_area("Detailed Recommendation", r["explanation"], height=340, disabled=True, key=f"rec_{i}")
+                st.text_area(
+                    label="Detailed Recommendation",
+                    value=r["explanation"],
+                    height=340,
+                    disabled=True,
+                    key=f"rec_{i}"
+                )
 
-        st.download_button("Download Full Report", r["explanation"], file_name="conference_recommendation_report.txt", mime="text/plain")
+        st.download_button(
+            label="Download Full Report",
+            data=r["explanation"],
+            file_name="conference_recommendation_report.txt",
+            mime="text/plain"
+        )
