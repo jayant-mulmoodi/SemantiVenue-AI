@@ -1,0 +1,124 @@
+Step 1: Install Ollama (LLM Engine)
+
+        Go to the official Ollama website: https://ollama.com/download
+        Download the Windows installer (OllamaSetup.exe).
+        Run the installer and complete the installation.
+        After installation, open PowerShell or Command Prompt and verify Ollama is installed:
+
+Execute : 
+
+ollama --version
+
+
+Step 2: Download and Run the LLM Model
+-------        
+        Run the following command in PowerShell/Command Prompt:
+        
+Execute : 
+
+ollama pull llama3.2        
+
+
+Verify the model:
+
+Execute : 
+
+ollama list
+
+Step 3: Prepare the Project Folder
+-------
+        Create a new folder on your desktop or anywhere convenient, e.g.:textD:\SemantiVenue-AI
+        Inside this folder, create the following structure:
+        
+        SemantiVenue-AI/
+        ├── .env
+        ├── requirements.txt
+        ├── build_vector_db.py
+        ├── data/
+        │   └── conferences.json
+        ├── src/
+        │   ├── __init__.py
+        │   ├── paper_processor.py
+        │   ├── retriever.py
+        │   ├── reranker.py
+        │   ├── evaluator.py
+        │   ├── graph.py
+        │   ├── pipeline.py
+        │   └── evaluation_metrics.py
+        └── app/
+            └── streamlit_app.py
+            
+Step 4:
+------- 
+        Create .env File
+        Create a file named .env in the root folder with this content:
+        ==============================================================
+        
+        OLLAMA_MODEL=llama3.2
+        OLLAMA_TEMPERATURE=0.3
+        OLLAMA_BASE_URL=http://localhost:11434
+
+        EMBEDDING_MODEL=BAAI/bge-base-en-v1.5
+        CHROMA_DB_PATH=chroma_db
+        CHROMA_COLLECTION_NAME=conferences
+
+        RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+        
+        RETRIEVAL_TOP_K=15
+        FINAL_TOP_N=5
+        RETRIEVAL_WEIGHT=0.4
+        RERANK_WEIGHT=0.6
+        
+        LOG_LEVEL=INFO
+        HF_HUB_DISABLE_SYMLINKS_WARNING=1
+        ANONYMIZED_TELEMETRY=False  
+        
+Step 5: 
+-------
+        Install Python Dependencies
+
+Execute:          
+
+cd D:\SemantiVenue-AI
+
+pip install -r requirements.txt
+        
+        
+Step 6: 
+-------        
+         Build the Vector Database 
+         
+Execute: 
+
+python build_vector_db.py       
+
+Step 7:
+-------
+          Run the Application
+          Run the Streamlit app:
+          
+Execute : 
+
+streamlit run app/streamlit_app.py
+
+
+
+======================================================================
+Papers-Ids
+'''
+arXiv ID,Paper Topic,Expected Top Conferences
+2405.12345,Large Language Models,"NeurIPS, ICML, ICLR"
+2305.18290,Vision Transformer / Computer Vision,"CVPR, ICCV, NeurIPS"
+2410.02524,Reinforcement Learning,"NeurIPS, ICML"
+2401.08234,NLP / Multimodal Models,"ACL, EMNLP"
+2309.16609,General AI / Survey Paper,"AAAI, NeurIPS"
+
+Paper Type,arXiv ID,Expected Top Conferences
+Large Language Models,2405.12345,"NeurIPS, ICML, ICLR"
+Computer Vision,2305.18290,"CVPR, ICCV, ECCV"
+Reinforcement Learning,2410.02524,"NeurIPS, ICML, CoRL"
+NLP,2309.16609,"ACL, EMNLP, NAACL"
+General AI,2401.08234,"AAAI, IJCAI"
+
+'''                                   
+=======================================================================

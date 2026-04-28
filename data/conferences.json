@@ -1,0 +1,218 @@
+[
+  {
+    "name": "NeurIPS",
+    "description": "Conference on Neural Information Processing Systems - Premier machine learning and computational neuroscience conference.",
+    "topics": ["deep learning", "reinforcement learning", "theory", "optimization", "neuroscience"],
+    "area": "Machine Learning",
+    "acceptance_rate": "20-25%",
+    "website": "https://neurips.cc"
+  },
+  {
+    "name": "ICML",
+    "description": "International Conference on Machine Learning - One of the top machine learning conferences.",
+    "topics": ["machine learning", "optimization", "statistical learning", "theory"],
+    "area": "Machine Learning",
+    "acceptance_rate": "20-25%",
+    "website": "https://icml.cc"
+  },
+  {
+    "name": "ICLR",
+    "description": "International Conference on Learning Representations - Focused on deep learning theory and representation learning.",
+    "topics": ["representation learning", "deep learning", "neural architectures"],
+    "area": "Machine Learning",
+    "acceptance_rate": "25-30%",
+    "website": "https://iclr.cc"
+  },
+  {
+    "name": "CVPR",
+    "description": "Computer Vision and Pattern Recognition - Leading conference in computer vision.",
+    "topics": ["computer vision", "image processing", "3D vision", "multimodal"],
+    "area": "Computer Vision",
+    "acceptance_rate": "20-25%",
+    "website": "https://cvpr.thecvf.com"
+  },
+  {
+    "name": "ICCV",
+    "description": "International Conference on Computer Vision.",
+    "topics": ["computer vision", "vision", "image understanding"],
+    "area": "Computer Vision",
+    "acceptance_rate": "25%",
+    "website": "https://iccv.thecvf.com"
+  },
+  {
+    "name": "ECCV",
+    "description": "European Conference on Computer Vision.",
+    "topics": ["computer vision", "vision systems"],
+    "area": "Computer Vision",
+    "acceptance_rate": "25-30%",
+    "website": "https://eccv.ecva.net"
+  },
+  {
+    "name": "ACL",
+    "description": "Association for Computational Linguistics - Premier NLP conference.",
+    "topics": ["natural language processing", "computational linguistics", "multimodal NLP"],
+    "area": "NLP",
+    "acceptance_rate": "20-25%",
+    "website": "https://aclweb.org"
+  },
+  {
+    "name": "EMNLP",
+    "description": "Empirical Methods in Natural Language Processing.",
+    "topics": ["empirical NLP", "large language models", "multilingual NLP"],
+    "area": "NLP",
+    "acceptance_rate": "22%",
+    "website": "https://emnlp.org"
+  },
+  {
+    "name": "NAACL",
+    "description": "North American Chapter of the Association for Computational Linguistics.",
+    "topics": ["natural language processing", "NLP applications"],
+    "area": "NLP",
+    "acceptance_rate": "20-25%",
+    "website": "https://naacl.org"
+  },
+  {
+    "name": "AAAI",
+    "description": "Association for the Advancement of Artificial Intelligence.",
+    "topics": ["artificial intelligence", "reasoning", "planning", "multi-agent"],
+    "area": "AI",
+    "acceptance_rate": "15-20%",
+    "website": "https://aaai.org"
+  },
+  {
+    "name": "IJCAI",
+    "description": "International Joint Conference on Artificial Intelligence.",
+    "topics": ["artificial intelligence", "search", "constraints"],
+    "area": "AI",
+    "acceptance_rate": "15-20%",
+    "website": "https://ijcai.org"
+  },
+  {
+    "name": "KDD",
+    "description": "Knowledge Discovery and Data Mining.",
+    "topics": ["data mining", "big data", "graph mining", "knowledge discovery"],
+    "area": "Data Mining",
+    "acceptance_rate": "15-20%",
+    "website": "https://kdd.org"
+  },
+  {
+    "name": "MLSys",
+    "description": "Conference on Machine Learning and Systems.",
+    "topics": ["machine learning systems", "distributed ML", "hardware acceleration"],
+    "area": "Systems",
+    "acceptance_rate": "20-25%",
+    "website": "https://mlsys.org"
+  },
+  {
+    "name": "CoRL",
+    "description": "Conference on Robot Learning.",
+    "topics": ["robot learning", "reinforcement learning", "robotics"],
+    "area": "Robotics",
+    "acceptance_rate": "25%",
+    "website": "https://corl.org"
+  },
+  {
+    "name": "ICRA",
+    "description": "IEEE International Conference on Robotics and Automation.",
+    "topics": ["robotics", "automation"],
+    "area": "Robotics",
+    "acceptance_rate": "40%",
+    "website": "https://icra.ieee.org"
+  },
+  {
+    "name": "IROS",
+    "description": "IEEE/RSJ International Conference on Intelligent Robots and Systems.",
+    "topics": ["robotics", "intelligent systems", "autonomous systems"],
+    "area": "Robotics",
+    "acceptance_rate": "45%",
+    "website": "https://iros2025.org"
+  },
+  {
+    "name": "AISTATS",
+    "description": "International Conference on Artificial Intelligence and Statistics.",
+    "topics": ["statistical learning", "probabilistic methods"],
+    "area": "Machine Learning",
+    "acceptance_rate": "25-30%",
+    "website": "https://aistats.org"
+  },
+  {
+    "name": "UAI",
+    "description": "Conference on Uncertainty in Artificial Intelligence.",
+    "topics": ["probabilistic reasoning", "causal inference"],
+    "area": "AI",
+    "acceptance_rate": "25%",
+    "website": "https://auai.org"
+  },
+  {
+    "name": "WACV",
+    "description": "Winter Conference on Applications of Computer Vision.",
+    "topics": ["computer vision applications"],
+    "area": "Computer Vision",
+    "acceptance_rate": "30%",
+    "website": "https://wacv.thecvf.com"
+  },
+  {
+    "name": "COLING",
+    "description": "International Conference on Computational Linguistics.",
+    "topics": ["computational linguistics", "NLP"],
+    "area": "NLP",
+    "acceptance_rate": "25%",
+    "website": "https://coling.org"
+  },
+  {
+    "name": "ICASSP",
+    "description": "IEEE International Conference on Acoustics, Speech and Signal Processing.",
+    "topics": ["speech processing", "signal processing"],
+    "area": "Speech & Signal",
+    "acceptance_rate": "45%",
+    "website": "https://2025.ieeeicassp.org"
+  },
+  {
+    "name": "INTERSPEECH",
+    "description": "Annual Conference of the International Speech Communication Association.",
+    "topics": ["speech recognition", "speech synthesis", "voice AI"],
+    "area": "Speech",
+    "acceptance_rate": "50%",
+    "website": "https://www.interspeech2025.org"
+  },
+  {
+    "name": "SIGIR",
+    "description": "International ACM SIGIR Conference on Research and Development in Information Retrieval.",
+    "topics": ["information retrieval", "search systems", "recommender systems"],
+    "area": "Information Retrieval",
+    "acceptance_rate": "20%",
+    "website": "https://sigir.org"
+  },
+  {
+    "name": "BMVC",
+    "description": "British Machine Vision Conference.",
+    "topics": ["computer vision", "image analysis"],
+    "area": "Computer Vision",
+    "acceptance_rate": "30%",
+    "website": "https://bmvc2025.org"
+  },
+  {
+    "name": "ECCV Workshops",
+    "description": "Workshops at European Conference on Computer Vision covering specialized topics.",
+    "topics": ["computer vision workshops"],
+    "area": "Computer Vision",
+    "acceptance_rate": "Varies",
+    "website": "https://eccv.ecva.net"
+  },
+  {
+    "name": "NeurIPS Workshops",
+    "description": "Workshops at NeurIPS covering cutting-edge topics in machine learning.",
+    "topics": ["specialized ML topics"],
+    "area": "Machine Learning",
+    "acceptance_rate": "Varies",
+    "website": "https://neurips.cc"
+  },
+  {
+    "name": "ACL Findings",
+    "description": "Findings of the Association for Computational Linguistics - High-quality NLP papers.",
+    "topics": ["natural language processing"],
+    "area": "NLP",
+    "acceptance_rate": "30%",
+    "website": "https://aclweb.org"
+  }
+]

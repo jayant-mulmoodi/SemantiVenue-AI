@@ -1,0 +1,12 @@
+[workspace]
+restore_data_on_startup = True
+save_data_on_exit = True
+save_history = True
+save_non_project_files = False
+project_type = 'empty-project-type'
+recent_files = ['C:\\Users\\mjayant\\.spyder-py3\\temp.py', '.env', 'tester.py', 'requirements.txt', 'build_vector_db.py', 'README.md', 'src\\paper_processor.py', 'src\\retriever.py', 'src\\reranker.py', 'src\\evaluator.py', 'src\\graph.py', 'src\\pipeline.py', 'app\\streamlit_app.py', '__init__.py', 'run_app.py', 'data\\conferences.json', 'src\\evaluation_metrics.py', 'execution_steps.txt']
+
+[main]
+version = 0.2.0
+recent_files = []
+
