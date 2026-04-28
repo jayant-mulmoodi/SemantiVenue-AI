@@ -2,38 +2,25 @@ import sys
 import os
 import warnings
 from pathlib import Path
-from dotenv import load_dotenv
 import subprocess
 
-
+# ====================== MUST BE THE VERY FIRST STREAMLIT COMMAND ======================
 import streamlit as st
-
-
-# ====================== MUST BE FIRST ======================
-# Set page config as the VERY FIRST Streamlit command
 st.set_page_config(page_title="SemantiVenue AI", layout="wide")
-# ==========================================================
+# ====================================================================================
 
-# ====================== Fixes ======================
+# ====================== Other Imports & Fixes ======================
 warnings.filterwarnings("ignore")
 os.environ["STREAMLIT_SERVER_ENABLE_FILE_WATCHER"] = "false"
 
 import torch
 torch.classes.__path__ = []
-# ===================================================
 
 PROJECT_ROOT = Path(__file__).parent.parent.absolute()
-sys.path.append(str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-# ====================== CRITICAL PATH FIX FOR STREAMLIT CLOUD ======================
-# Force add project root to Python path
-#ROOT_DIR = Path(__file__).parent.parent.absolute()
-#sys.path.insert(0, str(ROOT_DIR))
-#sys.path.insert(0, str(ROOT_DIR / "src"))
-
-#print(f"Project root added to path: {ROOT_DIR}")
-# =================================================================================
-
+from dotenv import load_dotenv
 load_dotenv()
 
 import logging
@@ -44,16 +31,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-import streamlit as st
 from src.pipeline import run_pipeline
+# ===================================================================
 
 # ====================== CHROMADB INITIALIZATION ======================
-# ====================== DATABASE INITIALIZATION ======================
 @st.cache_resource(show_spinner="Initializing Vector Database...")
 def initialize_chroma_db():
     try:
         logger.info("Building ChromaDB...")
-        # Use the SAME Python interpreter as Streamlit
         python_exe = sys.executable
         result = subprocess.run(
             [python_exe, "build_vector_db.py"],
@@ -77,7 +62,6 @@ def initialize_chroma_db():
 db_ready = initialize_chroma_db()
 # ===================================================================
 
-st.set_page_config(page_title="SemantiVenue AI", layout="wide")
 st.title("SemantiVenue AI")
 st.markdown("**Agentic RAG Research Paper Conference Recommendation System**")
 
@@ -135,4 +119,9 @@ with tab2:
             with st.expander(f"Rank {i+1}: {conf} (Score: {score:.3f})", expanded=(i == 0)):
                 st.text_area("Detailed Recommendation", r["explanation"], height=340, disabled=True, key=f"rec_{i}")
 
-        st.download_button("Download Full Report", r["explanation"], file_name="conference_recommendation_report.txt", mime="text/plain")
+        st.download_button(
+            label="Download Full Report",
+            data=r["explanation"],
+            file_name="conference_recommendation_report.txt",
+            mime="text/plain"
+        )
