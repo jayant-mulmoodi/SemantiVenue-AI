@@ -48,35 +48,41 @@ import streamlit as st
 from src.pipeline import run_pipeline
 
 # ====================== CHROMADB INITIALIZATION ======================
-@st.cache_resource(show_spinner="Building Vector Database (First Time)...")
+# ====================== DATABASE INITIALIZATION ======================
+@st.cache_resource(show_spinner="Initializing Vector Database...")
 def initialize_chroma_db():
-    """Build ChromaDB on startup"""
     try:
-        logger.info("Initializing ChromaDB...")
+        logger.info("Building ChromaDB...")
+        # Use the SAME Python interpreter as Streamlit
+        python_exe = sys.executable
         result = subprocess.run(
-            ["python", "build_vector_db.py"], 
-            capture_output=True, 
-            text=True, 
-            timeout=120
+            [python_exe, "build_vector_db.py"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+            cwd=PROJECT_ROOT
         )
         if result.returncode == 0:
-            logger.info("ChromaDB initialized successfully")
+            logger.info("✅ ChromaDB initialized successfully")
             return True
         else:
             logger.error(f"DB build failed: {result.stderr}")
-            st.error("Failed to build vector database. Please check logs.")
+            st.error("Database build failed. Please check logs.")
             return False
     except Exception as e:
         logger.error(f"Database initialization error: {e}")
         st.error(f"Database error: {e}")
         return False
 
-# Run initialization
 db_ready = initialize_chroma_db()
 # ===================================================================
 
+st.set_page_config(page_title="SemantiVenue AI", layout="wide")
 st.title("SemantiVenue AI")
 st.markdown("**Agentic RAG Research Paper Conference Recommendation System**")
+
+if not db_ready:
+    st.warning("⚠️ Vector database initialization had issues.")
 
 tab1, tab2 = st.tabs(["Submit Paper", "Results"])
 
@@ -127,17 +133,6 @@ with tab2:
         st.write("### 🏆 Ranked Conferences")
         for i, (conf, score) in enumerate(zip(r["ranked_conferences"], r["scores"])):
             with st.expander(f"Rank {i+1}: {conf} (Score: {score:.3f})", expanded=(i == 0)):
-                st.text_area(
-                    label="Detailed Recommendation",
-                    value=r["explanation"],
-                    height=340,
-                    disabled=True,
-                    key=f"rec_{i}"
-                )
+                st.text_area("Detailed Recommendation", r["explanation"], height=340, disabled=True, key=f"rec_{i}")
 
-        st.download_button(
-            label="Download Full Report",
-            data=r["explanation"],
-            file_name="conference_recommendation_report.txt",
-            mime="text/plain"
-        )
+        st.download_button("Download Full Report", r["explanation"], file_name="conference_recommendation_report.txt", mime="text/plain")

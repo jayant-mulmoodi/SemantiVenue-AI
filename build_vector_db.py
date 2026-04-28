@@ -12,17 +12,14 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(
 logger = logging.getLogger(__name__)
 
 def get_chroma_path():
-    """Adaptive path: /tmp on Streamlit Cloud, local folder on Windows"""
     if os.path.exists("/tmp") and os.access("/tmp", os.W_OK):
-        return "/tmp/chroma_db"      # Cloud
-    return "chroma_db"               # Local
+        return "/tmp/chroma_db"   # Streamlit Cloud
+    return "chroma_db"            # Local
 
 def build_vector_db():
     logger.info("🚀 Building Vector Database...")
 
     chroma_dir = Path(get_chroma_path())
-    
-    # Clean old database to avoid dimension mismatch
     if chroma_dir.exists():
         import shutil
         shutil.rmtree(chroma_dir)
@@ -55,7 +52,7 @@ def build_vector_db():
         ids.append(f"conf_{i}")
 
     collection.add(documents=documents, metadatas=metadatas, ids=ids)
-    logger.info(f"✅ Vector database built successfully with {len(conferences)} conferences!")
+    logger.info(f"✅ Vector database built with {len(conferences)} conferences!")
 
 if __name__ == "__main__":
     build_vector_db()
