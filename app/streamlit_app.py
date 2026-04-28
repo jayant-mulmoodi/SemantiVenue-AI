@@ -7,7 +7,7 @@ import subprocess
 
 
 import streamlit as st
-from src.pipeline import run_pipeline
+
 
 # ====================== MUST BE FIRST ======================
 # Set page config as the VERY FIRST Streamlit command
@@ -24,6 +24,15 @@ torch.classes.__path__ = []
 
 PROJECT_ROOT = Path(__file__).parent.parent.absolute()
 sys.path.append(str(PROJECT_ROOT))
+
+# ====================== CRITICAL PATH FIX FOR STREAMLIT CLOUD ======================
+# Force add project root to Python path
+#ROOT_DIR = Path(__file__).parent.parent.absolute()
+#sys.path.insert(0, str(ROOT_DIR))
+#sys.path.insert(0, str(ROOT_DIR / "src"))
+
+#print(f"Project root added to path: {ROOT_DIR}")
+# =================================================================================
 
 load_dotenv()
 
